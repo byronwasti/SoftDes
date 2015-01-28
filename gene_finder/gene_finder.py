@@ -90,26 +90,27 @@ def find_all_ORFs_oneframe(dna):
     """
     # TODO: implement this
     j = 0;
-    k = 0;
+    k = 1;
     stop = ( "TGA", "TAA", "TAG" )
     string = []
     for i in xrange(0,len(dna)-3, 3):
         tmp = dna[i] + dna[i+1] +dna[i+2]
 
-        if (tmp == "ATG" and i == 0) or (tmp == "ATG" and k == 1):
+        if (tmp == "ATG" and k == 1):
             string.append(tmp)
             k = 0
-        elif tmp in stop:
+        elif (tmp in stop and k == 0):
             j += 1
             k = 1
             continue
-        string[j] = string[j] + tmp
+        elif len(string) != 0:
+            string[j] = string[j] + tmp
 
     if (len(dna) % 3) != 0:
-        string[j] = string[j] + dna[-len(dna)%3:]
+        mod = len(dna) % 3
+        string[j] = string[j] + dna[-mod:]
 
     return string
-        
 
 def find_all_ORFs(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence in all 3
@@ -124,7 +125,13 @@ def find_all_ORFs(dna):
     ['ATGCATGAATGTAG', 'ATGAATGTAG', 'ATG']
     """
     # TODO: implement this
-    pass
+    string = []
+    for i in [0, 1, 2]:
+        print find_all_ORFs_oneframe(dna[i:])
+        string.append(find_all_ORFs_oneframe(dna[i:])[0])
+    return string
+
+print find_all_ORFs("ATGCATGAATGTAG")
 
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
@@ -137,6 +144,9 @@ def find_all_ORFs_both_strands(dna):
     """
     # TODO: implement this
     pass
+
+
+##### WEEK ONE DONE ####################################################################
 
 
 def longest_ORF(dna):
