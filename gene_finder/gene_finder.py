@@ -30,7 +30,8 @@ def get_complement(nucleotide):
     'G'
     """
     # TODO: implement this
-    pass
+    complement = { 'A':'T', 'T':'A', 'C':'G', 'G':'C' }
+    return complement[nucleotide]
 
 def get_reverse_complement(dna):
     """ Computes the reverse complementary sequence of DNA for the specfied DNA
@@ -44,7 +45,11 @@ def get_reverse_complement(dna):
     'TGAACGCGG'
     """
     # TODO: implement this
-    pass
+    complement = { 'A':'T', 'T':'A', 'C':'G', 'G':'C' }
+    string = ''
+    for i in dna:
+        string = string + complement[i]
+    return string[::-1]
 
 def rest_of_ORF(dna):
     """ Takes a DNA sequence that is assumed to begin with a start codon and returns
@@ -59,7 +64,17 @@ def rest_of_ORF(dna):
     'ATGAGA'
     """
     # TODO: implement this
-    pass
+    stop = ( "TGA", "TAA", "TAG" )
+    string = ''
+    for i in xrange(0, len(dna)-3, 3):
+        tmp = dna[i] + dna[i+1] + dna[i+2]
+        if tmp in stop:
+            return string
+        else:
+            string = string + tmp
+
+    return string
+        
 
 def find_all_ORFs_oneframe(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence and returns
@@ -74,7 +89,27 @@ def find_all_ORFs_oneframe(dna):
     ['ATGCATGAATGTAGA', 'ATGTGCCC']
     """
     # TODO: implement this
-    pass
+    j = 0;
+    k = 0;
+    stop = ( "TGA", "TAA", "TAG" )
+    string = []
+    for i in xrange(0,len(dna)-3, 3):
+        tmp = dna[i] + dna[i+1] +dna[i+2]
+
+        if (tmp == "ATG" and i == 0) or (tmp == "ATG" and k == 1):
+            string.append(tmp)
+            k = 0
+        elif tmp in stop:
+            j += 1
+            k = 1
+            continue
+        string[j] = string[j] + tmp
+
+    if (len(dna) % 3) != 0:
+        string[j] = string[j] + dna[-len(dna)%3:]
+
+    return string
+        
 
 def find_all_ORFs(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence in all 3
@@ -153,7 +188,8 @@ def gene_finder(dna, threshold):
     """
     # TODO: implement this
     pass
-
+'''
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+'''
