@@ -57,21 +57,16 @@ def rest_of_ORF(dna):
         returns: the open reading frame represented as a string
     >>> rest_of_ORF("ATGTGAA")
     'ATG'
-    >>> rest_of_ORF("ATGAGATAGG")
+    >>> rest_of_ORF("ATG AGA TAG G")
     'ATGAGA'
     """
     # TODO: implement this
     stop = ( "TGA", "TAA", "TAG" )
-    string = ''
-    for i in xrange(0, len(dna)-3, 3):
-        tmp = dna[i] + dna[i+1] + dna[i+2]
-        if tmp in stop:
-            return string
-        else:
-            string = string + tmp
-
-    return string
-        
+    if ( [ dna[i]+dna[i+1]+dna[i+2] for i in xrange(0, len(dna)-2,3) if (dna[i]+dna[i+1]+dna[i+2]) in stop]):
+        return ''.join( [ (dna[i] + dna[i+1] + dna[i+2]) for i in xrange(0, len(dna)-2, 3) if (dna[i] + dna[i+1] + dna[i+2]) not in stop] )
+    else:
+        return dna
+    
 
 def find_all_ORFs_oneframe(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence and returns
