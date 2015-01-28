@@ -91,26 +91,31 @@ def find_all_ORFs_oneframe(dna):
     # TODO: implement this
     j = 0;
     k = 1;
+    started = 0;
     stop = ( "TGA", "TAA", "TAG" )
     string = []
-    for i in xrange(0,len(dna)-3, 3):
-        tmp = dna[i] + dna[i+1] +dna[i+2]
+    for i in xrange(0,len(dna)-2, 3):
+        tmp = dna[i] + dna[i+1] +dna[i+2]   
 
         if (tmp == "ATG" and k == 1):
             string.append(tmp)
             k = 0
+            started = 1;
         elif (tmp in stop and k == 0):
             j += 1
             k = 1
+            started = 0
             continue
-        elif len(string) != 0:
+        elif len(string) != 0 and started == 1:
             string[j] = string[j] + tmp
 
-    if (len(dna) % 3) != 0:
+
+    if (len(dna) % 3) != 0 and started == 1:
         mod = len(dna) % 3
         string[j] = string[j] + dna[-mod:]
-
+        
     return string
+
 
 def find_all_ORFs(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence in all 3
@@ -127,11 +132,11 @@ def find_all_ORFs(dna):
     # TODO: implement this
     string = []
     for i in [0, 1, 2]:
-        print find_all_ORFs_oneframe(dna[i:])
-        string.append(find_all_ORFs_oneframe(dna[i:])[0])
+        try:
+            string.append(find_all_ORFs_oneframe(dna[i:])[0])
+        except:
+            continue
     return string
-
-print find_all_ORFs("ATGCATGAATGTAG")
 
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
@@ -143,7 +148,11 @@ def find_all_ORFs_both_strands(dna):
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
     """
     # TODO: implement this
-    pass
+    string = []
+    string.append( find_all_ORFs(dna)[0] )
+    string.append( find_all_ORFs( get_reverse_complement( dna) )[0])
+    return string
+
 
 
 ##### WEEK ONE DONE ####################################################################
@@ -198,8 +207,6 @@ def gene_finder(dna, threshold):
     """
     # TODO: implement this
     pass
-'''
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-'''
