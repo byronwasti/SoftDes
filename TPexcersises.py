@@ -5,7 +5,7 @@ print
 
 # Problem 5.3
 def check_fermat(a, b, c, n):
-    return "Holy smokes, Fermat was wrong!" if a**n+b**n == c**n else "No, that doesn't work."
+    return "Holy smokes, Fermat was wrong!" if a**n + b**n == c**n else "No, that doesn't work."
 print "Please input the four numbers"
 a = int(raw_input("Please input a: "))
 b = int(raw_input("Please input b: "))
