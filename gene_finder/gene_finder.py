@@ -46,10 +46,7 @@ def get_reverse_complement(dna):
     """
     # TODO: implement this
     complement = { 'A':'T', 'T':'A', 'C':'G', 'G':'C' }
-    string = ''
-    for i in dna:
-        string = string + complement[i]
-    return string[::-1]
+    return ''.join([complement[i] for i in dna[::-1] ])
 
 def rest_of_ORF(dna):
     """ Takes a DNA sequence that is assumed to begin with a start codon and returns
@@ -207,6 +204,8 @@ def gene_finder(dna, threshold):
     """
     # TODO: implement this
     pass
+'''
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+'''
