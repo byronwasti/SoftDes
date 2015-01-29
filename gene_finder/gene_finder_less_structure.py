@@ -12,6 +12,19 @@ import random
 from load import load_seq
 
 ### YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
+def Pull_that_shit_out( dna ):
+    dna_split = []
+    for i in (" TAG ", " TAA "," TGA "):
+        if len(dna.split(i)) > 1:
+            dna_split = (dna.split(i))
+    working = []
+    for i in xrange(len(dna_f1_splits)):
+        print "Code needed"
+        if dna_f1_splits[i][0]+dna_f1_splits[i][1]+dna_f1_splits[i][2] == "ATG":
+            working.append(dna_f1_splits[i])
+
+    return working
+
 
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
@@ -23,7 +36,65 @@ def find_all_ORFs_both_strands(dna):
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
     """
     # TODO: implement this
-    pass
+    
+    compl = { 'A':'T', 'T':'A', 'G':'C', 'C':'G' }
+    rdna = dna[::-1]
+    print rdna
+
+    tmp = ''
+
+    for i in rdna:
+        tmp = tmp+compl[i]
+
+    rdna = tmp
+    print rdna
+
+    dna_f1 = ''.join([ dna[i] + dna[i+1] + dna[i+2] + ' ' for i in xrange(0, len(dna)-2,3) ]) 
+    dna_f2 = ''.join([ dna[i] + dna[i+1] + dna[i+2] + ' ' for i in xrange(1, len(dna)-2, 3) ])
+    dna_f3 = ''.join([ dna[i] + dna[i+1] + dna[i+2] + ' ' for i in xrange(2, len(dna)-2, 3) ])
+
+    print dna_f1
+    dna_f1_splits = []
+    dna_f2_splits = []
+    dna_f3_splits = []
+    for i in (" TAG ", " TAA "," TGA "):
+        if len(dna_f1.split(i)) > 1:
+            dna_f1_splits = (dna_f1.split(i))
+    for i in (" TAG ", " TAA "," TGA "):
+        if len(dna_f2.split(i)) > 1:
+            dna_f2_splits.append(dna_f2.split(i))
+    for i in (" TAG ", " TAA "," TGA "):
+        if len(dna_f3.split(i)) > 1:
+            dna_f3_splits.append(dna_f3.split(i))
+
+    print "Splits"
+    print dna_f1_splits
+    working = []
+    for i in xrange(len(dna_f1_splits)):
+        print "Code needed"
+        if dna_f1_splits[i][0]+dna_f1_splits[i][1]+dna_f1_splits[i][2] == "ATG":
+            working.append(dna_f1_splits[i])
+
+    print
+    print "WORKING STUFF"
+    print working
+    print
+
+    print dna_f2_splits
+    print dna_f3_splits
+    print
+
+    print dna_f1
+    print dna_f2
+    print dna_f3
+
+find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
+
+
+
+### END OF WEEK ONE ###
+
+
 
 def longest_ORF(dna):
     """ Finds the longest ORF on both strands of the specified DNA and returns it
@@ -75,6 +146,8 @@ def gene_finder(dna, threshold):
     # TODO: implement this
     pass
 
+'''
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+'''
