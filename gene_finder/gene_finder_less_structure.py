@@ -14,18 +14,17 @@ from load import load_seq
 ### YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
 def splicer( dna ):
     dna_split = []
-    for i in (" TAG ", " TAA "," TGA "):
-        if len(dna.split(i)) > 1:
-            dna_split = (dna.split(i))
-            
+    dna_split_test = [dna.split(i) for i in (" TAG ", " TAA "," TGA ") if len(dna.split(i)) > 1]
+    if len(dna_split_test) > 0: dna_split = dna_split_test[0]
+    else: return
 
     working = []
     for i in xrange(len(dna_split)):
         loc = dna_split[i].find("ATG")
         if loc == -1: continue
-        dna_split[i] = dna_split[i][loc:]
+        else: dna_split[i] = dna_split[i][loc:]
 
-        if (dna_split[i][0]+dna_split[i][1]+dna_split[i][2]) == "ATG":
+        if ( ''.join([dna_split[i][j] for j in range(3)]) =="ATG"):
             working.append(dna_split[i])
 
     return working
@@ -59,7 +58,7 @@ def find_all_ORFs_both_strands(dna):
         for j in xrange(3):
             dna_f = ''.join([ idna[i] + idna[i+1] + idna[i+2] + ' ' for i in xrange(j, len(dna)-2,3)])
             out = splicer(dna_f)
-            if len(out) > 0:
+            if  out != None:
                 for i in xrange(len(out)):
                     working.append(out[i])
 
