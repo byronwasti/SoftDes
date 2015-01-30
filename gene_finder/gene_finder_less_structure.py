@@ -37,16 +37,7 @@ def find_all_ORFs_both_strands(dna):
     # TODO: implement this
     
     compl = { 'A':'T', 'T':'A', 'G':'C', 'C':'G' }
-    rdna = dna[::-1]
-
-    tmp = ''
-
-    for i in rdna:
-        tmp = tmp+compl[i]
-
-    rdna = tmp
-    
-    # Now I have rdna and dna set-up
+    rdna = ''.join([ compl[i] for i in dna[::-1] ])
 
     working = []
 
