@@ -13,22 +13,17 @@ from load import load_seq
 
 ### YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
 def splicer( dna ):
-    dna_split = []
+
     dna_split_test = [dna.split(i) for i in (" TAG ", " TAA "," TGA ") if len(dna.split(i)) > 1]
     if len(dna_split_test) > 0: dna_split = dna_split_test[0]
     else: return
 
-    working = []
     for i in xrange(len(dna_split)):
         loc = dna_split[i].find("ATG")
         if loc == -1: continue
         else: dna_split[i] = dna_split[i][loc:]
 
-        if ( ''.join([dna_split[i][j] for j in range(3)]) =="ATG"):
-            working.append(dna_split[i])
-
-    return working
-
+    return [ dna_split[i][dna_split[i].find("ATG"):] for i in range(len(dna_split)) if dna_split[i].find("ATG") > -1 and ''.join([dna_split[i][j] for j in range(3)]) == "ATG"]
 
 def find_all_ORFs_both_strands(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
@@ -54,17 +49,19 @@ def find_all_ORFs_both_strands(dna):
     # Now I have rdna and dna set-up
 
     working = []
+
     for idna in (dna, rdna):
         for j in xrange(3):
             dna_f = ''.join([ idna[i] + idna[i+1] + idna[i+2] + ' ' for i in xrange(j, len(dna)-2,3)])
             out = splicer(dna_f)
+            
             if  out != None:
                 for i in xrange(len(out)):
                     working.append(out[i])
 
-    print working
+    return working
 
-find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAA")
+print find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAA")
 
 
 
