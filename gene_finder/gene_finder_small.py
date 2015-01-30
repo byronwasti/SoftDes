@@ -10,14 +10,12 @@ def find_all_ORFs_both_strands(dna):
 This code uses the fewest number of characters for this
 particular algorithm
 '''
+
 def A(d):
-    return[c[c.find("ATG"):t]for c in (d,''.join([('A','T','G','C')[('A','T','G','C').index(i)+(1 if ('A','T','G','C').index(i)%2==0 else -1)] for i in d[::-1]])) for j in range(3) for t in range(j,len(c)-1,3) if c[t:t+3] in ("TAG","TAA","TGA") and len(c[c.find("ATG"):t])%3==0 and len(c[c.find("ATG"):t])!=0]
+    return[c[c.find("ATG"):t]for c in (d,''.join([b[b.index(i)+(1 if b.index(i)%2==0 else -1)]for i in d[::-1]for b in [['A','T','G','C']]]))for j in range(3)for t in range(j,len(c)-1,3)if c[t:t+3]in ("TAG","TAA","TGA")and len(c[c.find("ATG"):t])%3==0 and len(c[c.find("ATG"):t])!=0]
 
 
-
-'''
-This is the testing of the functions
-'''
+#This is the testing of the functions
 print find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAA")
 print A("CTAATGCGAATGTAGCATCAAA")
 
