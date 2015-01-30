@@ -10,14 +10,16 @@ def find_all_ORFs_both_strands(dna):
             for threes in range(j,len(idna)-1,3):
                 #print "Threes"
                 #print idna[threes:threes+3],
-                if idna[threes:threes+3] == "ATG":
+                if idna[threes:threes+3] in ("TAG","TAA","TGA"):
+                    
                     print
-                    print "Equal to ATG start"
+                    print idna[threes:threes+3]
+                    print "Equal to ATG end"
                     #print idna[threes:threes+3]
-                    for k in range(threes,len(idna),3):
+                    for k in range(j,threes,3):
                         print idna[k:k+3]
-                        if idna[k:k+3] in ("TAG","TAA","TGA"):
-                            print "FINAL:"+ idna[threes:k]
+                        if idna[k:k+3] == "ATG":
+                            print "FINAL:"+ idna[k:threes]
                             break
                     #print idna[threes:threes+3]
                 
