@@ -37,6 +37,16 @@ void Reverse(char * str)
 #   undef XOR_SWAP
   }
 }
+void Rev_Comp(char * str)
+{
+    int i;
+    Reverse( str);
+    char *ptr = str;
+    for( ptr; ptr > strlen(str) + str; ptr++){
+        printf("test\n");
+        *ptr = Get_Compliment( ptr );
+    }
+}
 
 int main ( int argc, char *argv[]){
     char nucl = 'A';
@@ -44,7 +54,13 @@ int main ( int argc, char *argv[]){
     char *dna2 = (char*)calloc(sizeof(dna), 1);
     char *pdna = dna;
     Reverse(dna);
+    printf("%s\n", dna);
+    Rev_Comp(dna);
+    
+    int i;
+    
     printf("%c\n", Get_Compliment( &nucl ) );
     printf("%s\n", dna);
+    
 
 }
