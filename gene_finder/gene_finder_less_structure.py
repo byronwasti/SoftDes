@@ -13,11 +13,9 @@ from load import load_seq
 
 ### YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
 def splicer( dna ):
-
     dna_split_test = [dna.split(i) for i in (" TAG ", " TAA "," TGA ") if len(dna.split(i)) > 1]
     if len(dna_split_test) > 0: dna_split = dna_split_test[0]
-    else: return
-
+    else: return []
     for i in xrange(len(dna_split)):
         loc = dna_split[i].find("ATG")
         if loc == -1: continue
@@ -35,25 +33,20 @@ def find_all_ORFs_both_strands(dna):
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
     """
     # TODO: implement this
-    
+
     compl = { 'A':'T', 'T':'A', 'G':'C', 'C':'G' }
     rdna = ''.join([ compl[i] for i in dna[::-1] ])
-
-    working = []
-
+    orf = []
     for idna in (dna, rdna):
         for j in xrange(3):
             dna_f = ''.join([ idna[i] + idna[i+1] + idna[i+2] + ' ' for i in xrange(j, len(dna)-2,3)])
             out = splicer(dna_f)
             
-            if  out != None:
-                for i in xrange(len(out)):
-                    working.append(out[i])
-
-    return working
+            for i in xrange(len(out)):
+                orf.append(out[i].replace(' ',''))
+    return orf
 
 print find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAA")
-
 
 
 ### END OF WEEK ONE ###
