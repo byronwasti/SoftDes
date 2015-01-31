@@ -46,7 +46,7 @@ def find_all_ORFs_both_strands(dna):
                 orf.append(out[i].replace(' ',''))
     return orf
 
-print find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAA")
+print find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAA")
 
 
 ### END OF WEEK ONE ###

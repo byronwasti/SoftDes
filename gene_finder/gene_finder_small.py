@@ -16,5 +16,5 @@ def A(d):return[c[c.find("ATG"):t]for c in (d,''.join([b[b.index(i)+(1 if b.inde
 
 #This is the testing of the functions
 print find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAA")
-print A("CTAATGCGAATGTAGCATCAAA")
+print A("CTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAA")
 
