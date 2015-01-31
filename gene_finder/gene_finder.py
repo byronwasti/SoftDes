@@ -138,6 +138,8 @@ def find_all_ORFs_both_strands(dna):
         returns: a list of non-nested ORFs
     >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAA")
     ['ATGCGAATG', 'ATGCTACATTCGCAT']
+    >>> find_all_ORFs_both_strands("ATGCGAATGTAGCATCAAAATGCGAATGTAGCATCAAA")
+    ['ATGCGAATG', 'ATGCTACATTCGCAT','ATGCGAATG', 'ATGCTACATTCGCAT']
     """
     # TODO: implement this
     string = []
@@ -199,8 +201,7 @@ def gene_finder(dna, threshold):
     """
     # TODO: implement this
     pass
-'''
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-'''
