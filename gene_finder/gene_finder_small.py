@@ -23,10 +23,12 @@ def find_all_ORFs_both_strands_full(dna):
     ORFs = []
     for idna in ( dna, ''.join([comp[i] for i in dna[::-1]])):
         for j in range(3):
+            starter = j
             for threes in range(j,len(idna)-1,3):
                 if idna[threes:threes+3] in ("TAG","TAA","TGA"):
-                    for k in range(j,threes,3):
+                    for k in range(starter,threes,3):
                         if idna[k:k+3] == "ATG":
+                            starter = threes
                             ORFs.append(idna[k:threes])
                             break
     return ORFs
