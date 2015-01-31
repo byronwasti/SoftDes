@@ -19,9 +19,8 @@ def A(d):return[c[c.find("ATG"):t]for c in (d,''.join([b[b.index(i)+(1 if b.inde
 #print A("CTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAA")
 
 def find_all_ORFs_both_strands_full(dna):
-    comp = { 'A':'T', 'T':'A', 'G':'C', 'C':'G' }
     ORFs = []
-    for idna in ( dna, ''.join([comp[i] for i in dna[::-1]])):
+    for idna in ( dna, ''.join([b[b.index(i)+(1 if b.index(i)%2==0 else -1)]for i in dna[::-1]for b in [['A','T','G','C']]])):
         for j in range(3):
             starter = j
             for threes in range(j,len(idna)-1,3):
