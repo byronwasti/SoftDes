@@ -179,9 +179,7 @@ def gene_finder(dna, threshold):
         if len(i) > ORF_length:
              MMMM.append(coding_strand_to_AA(i))
 
-    return len(MMMM), MMMM
-
-    #return len(find_all_ORFs_both_strands(dna))
+    return len(MMMM),MMMM
 
 print gene_finder( load_seq("./data/X73525.fa"), 1500)
 
