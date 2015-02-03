@@ -10,7 +10,7 @@ Created on Sun Feb  2 11:24:42 2014
 from amino_acids_less_structure import aa, codons
 import random
 from random import shuffle
-from load import load_seq
+from load import load_seq, load_salmonella_genome
 
 ### YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
 def splicer( dna ):
@@ -100,7 +100,6 @@ def longest_ORF(dna):
     # TODO: implement this
     return max(find_all_ORFs_both_strands(dna),key=len)
     
-#print longest_ORF("CTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAA")
 
 
 def longest_ORF_noncoding(dna, num_trials):
@@ -111,15 +110,23 @@ def longest_ORF_noncoding(dna, num_trials):
         num_trials: the number of random shuffles
         returns: the maximum length longest ORF """
     # TODO: implement this
-    print [ longest_ORF(dna) for i in range(num_trials) if shuffle(dna)]
-    print len( max ( [ longest_ORF(dna) for i in range(num_trials) if shuffle(dna)]   ), key =len)
+    longest = []
+    shuffled = []
+    for i in range(num_trials):
+        shuffled = [i for i in dna]
+        shuffle(shuffled)
+        dna = ''.join([i for i in shuffled])
+        try:
+            longest.append(longest_ORF(dna))
+        except: continue
+
+    return len( max(longest,key = len))
     
-    #print ''.join( random.shuffle( list(dna) ) )
 
-print longest_ORF_noncoding("CTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAA",2)
 
-def coding_strand_to_AA(dna):
+def coding_strand_to_AA_clean(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
+
         does not check for start and stop codons (it assumes that the input
         DNA sequence represents an protein coding region).
         
@@ -132,8 +139,26 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
     """
-    # TODO: implement this
-    pass
+    returned = []
+    # sets i to be codons
+    for i in range(0,len(dna),3):
+
+        # sweep through all codons in list
+        for j in range(len(codons)):
+    
+            # see if dna is in codons set
+            if dna[i:i+3] in codons[j]:
+        
+                # append the AA to which dna codon matches
+                returned.append(aa[j])
+
+    #...
+    return returned
+    
+
+def coding_strand_to_AA(dna):
+    return ''.join([ aa[j] for i in range(0,len(dna),3) for j in range(len(codons)) if dna[i:i+3] in codons[j]])
+
 
 def gene_finder(dna, threshold):
     """ Returns the amino acid sequences coded by all genes that have an ORF
@@ -146,7 +171,19 @@ def gene_finder(dna, threshold):
                  length specified.
     """
     # TODO: implement this
-    pass
+    ORF_length = longest_ORF_noncoding( dna ,threshold)
+
+    MMMM = []
+
+    for i in find_all_ORFs_both_strands(dna):
+        if len(i) > ORF_length:
+             MMMM.append(coding_strand_to_AA(i))
+
+    return len(MMMM), MMMM
+
+    #return len(find_all_ORFs_both_strands(dna))
+
+print gene_finder( load_seq("./data/X73525.fa"), 1500)
 
 '''
 if __name__ == "__main__":
