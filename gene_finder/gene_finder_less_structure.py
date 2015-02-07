@@ -9,7 +9,8 @@ Created on Sun Feb  2 11:24:42 2014
 # you may find it useful to import these variables (although you are not required to use them)
 from amino_acids_less_structure import aa, codons
 import random
-from load import load_seq
+from random import shuffle
+from load import load_seq, load_salmonella_genome
 
 ### YOU WILL START YOUR IMPLEMENTATION FROM HERE DOWN ###
 def splicer( dna ):
@@ -23,7 +24,7 @@ def splicer( dna ):
 
     return [ dna_split[i][dna_split[i].find("ATG"):] for i in range(len(dna_split)) if dna_split[i].find("ATG") > -1 and ''.join([dna_split[i][j] for j in range(3)]) == "ATG"]
 
-def find_all_ORFs_both_strands(dna):
+def find_all_ORFs_both_strands_old(dna):
     """ Finds all non-nested open reading frames in the given DNA sequence on both
         strands.
         
@@ -46,7 +47,44 @@ def find_all_ORFs_both_strands(dna):
                 orf.append(out[i].replace(' ',''))
     return orf
 
-print find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAA")
+#print find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAA")
+
+def find_all_ORFs_both_strands(dna):
+    # Setting up the end array
+    ORFs = []
+
+    # Sets idna as both dna and the reverse compliment of dna, then iterates through both
+    for idna in ( dna, ''.join([b[b.index(i)+(1 if b.index(i)%2==0 else -1)]for i in dna[::-1]for b in [['A','T','G','C']]])):
+
+        # Sets j to allow for out of phase checks of triplet codons
+        for j in range(3):
+
+            # Starter is where to start checking for the start codon
+            starter = j
+
+            # Sets up the triplets starting at phase shift by j
+            for threes in range(j,len(idna)-1,3):
+
+                # Checks to see if triplet is stop codon
+                if idna[threes:threes+3] in ("TAG","TAA","TGA"):
+
+                    # Looks back to check for start codon, beginning at the starter
+                    for k in range(starter,threes,3):
+
+                        # Finds the triplet that codes for the start codon
+                        if idna[k:k+3] == "ATG":
+
+                            # Sets the starter to the end of the stop codon
+                            starter = threes
+
+                            # Append this ORF to the output array
+                            ORFs.append(idna[k:threes])
+
+                            # Get out of this loop and go back to finding end codons
+                            break
+
+    # ...
+    return ORFs
 
 
 ### END OF WEEK ONE ###
@@ -60,7 +98,8 @@ def longest_ORF(dna):
     'ATGCTACATTCGCAT'
     """
     # TODO: implement this
-    pass
+    return max(find_all_ORFs_both_strands(dna),key=len)
+    
 
 
 def longest_ORF_noncoding(dna, num_trials):
@@ -71,10 +110,23 @@ def longest_ORF_noncoding(dna, num_trials):
         num_trials: the number of random shuffles
         returns: the maximum length longest ORF """
     # TODO: implement this
-    pass
+    longest = []
+    shuffled = []
+    for i in range(num_trials):
+        shuffled = [i for i in dna]
+        shuffle(shuffled)
+        dna = ''.join([i for i in shuffled])
+        try:
+            longest.append(longest_ORF(dna))
+        except: continue
 
-def coding_strand_to_AA(dna):
+    return len( max(longest,key = len))
+    
+
+
+def coding_strand_to_AA_clean(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
+
         does not check for start and stop codons (it assumes that the input
         DNA sequence represents an protein coding region).
         
@@ -87,8 +139,26 @@ def coding_strand_to_AA(dna):
         >>> coding_strand_to_AA("ATGCCCGCTTT")
         'MPA'
     """
-    # TODO: implement this
-    pass
+    returned = []
+    # sets i to be codons
+    for i in range(0,len(dna),3):
+
+        # sweep through all codons in list
+        for j in range(len(codons)):
+    
+            # see if dna is in codons set
+            if dna[i:i+3] in codons[j]:
+        
+                # append the AA to which dna codon matches
+                returned.append(aa[j])
+
+    #...
+    return returned
+    
+
+def coding_strand_to_AA(dna):
+    return ''.join([ aa[j] for i in range(0,len(dna),3) for j in range(len(codons)) if dna[i:i+3] in codons[j]])
+
 
 def gene_finder(dna, threshold):
     """ Returns the amino acid sequences coded by all genes that have an ORF
@@ -101,7 +171,17 @@ def gene_finder(dna, threshold):
                  length specified.
     """
     # TODO: implement this
-    pass
+    ORF_length = longest_ORF_noncoding( dna ,threshold)
+
+    MMMM = []
+
+    for i in find_all_ORFs_both_strands(dna):
+        if len(i) > ORF_length:
+             MMMM.append(coding_strand_to_AA(i))
+
+    return len(MMMM),MMMM
+
+print gene_finder( load_seq("./data/X73525.fa"), 1500)
 
 '''
 if __name__ == "__main__":
