@@ -73,5 +73,6 @@ def find_all_ORFs_both_strands_list(dna):
     return ORFs
 
 
-print find_all_ORFs_both_strands_full("CTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAA")
+#print find_all_ORFs_both_strands_full("CTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAACTAATGCGAATGTAGCATCAAA")
+print find_all_ORFs_both_strands_full("CTAATGCGAATGTAGCATCAAA")
 
