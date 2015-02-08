@@ -178,7 +178,7 @@ def gene_finder(dna, threshold):
 
     return len(Real_ORFs),Real_ORFs
 
-#print gene_finder( load_seq("./data/X73525.fa"), 1500)
+print gene_finder( load_seq("./data/X73525.fa"), 1500)
 
 if __name__ == "__main__":
     import doctest

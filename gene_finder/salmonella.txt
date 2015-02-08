@@ -1,0 +1,10 @@
+ORGANISM  Salmonella enterica
+            Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales;
+            Enterobacteriaceae; Salmonella.
+COMMENT     REFSEQ: This record represents a single, non-redundant, protein
+            sequence which may be annotated on many different RefSeq genomes
+            from the same, or different, species.
+            COMPLETENESS: incomplete on the amino end.
+
+
+
