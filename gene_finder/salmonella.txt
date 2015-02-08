@@ -1,3 +1,4 @@
+ORF STRAND 1
 ORGANISM  Salmonella enterica
             Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales;
             Enterobacteriaceae; Salmonella.
@@ -6,5 +7,54 @@ COMMENT     REFSEQ: This record represents a single, non-redundant, protein
             from the same, or different, species.
             COMPLETENESS: incomplete on the amino end.
 
+=================================================================================
+ORF STRAND 2
+antigen presentation protein SpaN [Salmonella enterica]
+
+ Salmonella enterica
+            Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales;
+            Enterobacteriaceae; Salmonella.
+COMMENT     REFSEQ: This record represents a single, non-redundant, protein
+            sequence which may be annotated on many different RefSeq genomes
+            from the same, or different, species.
+            COMPLETENESS: full length.
 
 
+=================================================================================
+ORF STRAND 3
+type III secretion system protein SpaR [Salmonella enterica]
+
+ Salmonella enterica
+            Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales;
+            Enterobacteriaceae; Salmonella.
+COMMENT     REFSEQ: This record represents a single, non-redundant, protein
+            sequence which may be annotated on many different RefSeq genomes
+            from the same, or different, species.
+            COMPLETENESS: full length.
+
+
+=================================================================================
+ORF STRAND 4
+
+type III secretion system protein SpaO [Salmonella enterica]
+
+ Salmonella enterica
+            Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales;
+            Enterobacteriaceae; Salmonella.
+COMMENT     REFSEQ: This record represents a single, non-redundant, protein
+            sequence which may be annotated on many different RefSeq genomes
+            from the same, or different, species.
+            COMPLETENESS: full length.
+
+=================================================================================
+ORF STRAND 5
+
+type III secretion system protein SpaS [Salmonella enterica]
+
+ Salmonella enterica
+            Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales;
+            Enterobacteriaceae; Salmonella.
+COMMENT     REFSEQ: This record represents a single, non-redundant, protein
+            sequence which may be annotated on many different RefSeq genomes
+            from the same, or different, species.
+            COMPLETENESS: full length.
