@@ -22,25 +22,16 @@ def find_all_ORFs_both_strands(dna):
     >>> find_all_ORFs_both_strands("CTAATGCGAATGTAGCATCAAAATGCGAATGTAGCATCAAATAG")
     ['ATGCGAATG', 'ATGCGAATG', 'ATGCTACATTCGCAT']
     '''
-
     # Setting up the end array
     ORFs = []
 
     # Sets idna as both dna and the reverse compliment of dna, then iterates through both
     for idna in ( dna, ''.join([b[b.index(i)+(1 if b.index(i)%2==0 else -1)]for i in dna[::-1]for b in [['A','T','G','C']]])):
-
-        # Sets j to allow for out of phase checks of triplet codons
         for j in range(3):
-
-            # Starter is where to start checking for the start codon
             starter = j
-
             # Sets up the triplets starting at phase shift by j
             for threes in range(j,len(idna)-1,3):
-
-                # Checks to see if triplet is stop codon
                 if idna[threes:threes+3] in ("TAG","TAA","TGA"):
-
                     # Looks back to check for start codon, beginning at the starter
                     for k in range(starter,threes,3):
 
@@ -55,13 +46,10 @@ def find_all_ORFs_both_strands(dna):
 
                             # Get out of this loop and go back to finding end codons
                             break
-
-    # ...
     return ORFs
 
 
 ### END OF WEEK ONE ###
-
 
 
 def longest_ORF(dna):
@@ -70,10 +58,7 @@ def longest_ORF(dna):
     >>> longest_ORF("CTAATGCGAATGTAGCATCAAA")
     'ATGCTACATTCGCAT'
     """
-
-    # ...
     return max(find_all_ORFs_both_strands(dna),key=len)
-    
 
 
 def longest_ORF_noncoding(dna, num_trials):
@@ -88,12 +73,10 @@ def longest_ORF_noncoding(dna, num_trials):
 
     This test confirms that trying this numerous amount of times recieves the same value.
     """
-
     longest = []
     shuffled = []
 
     for i in range(num_trials):
-        
         # Not a very pretty way of shuffling DNA
         shuffled = [i for i in dna]
         shuffle(shuffled)
@@ -104,9 +87,8 @@ def longest_ORF_noncoding(dna, num_trials):
             longest.append(longest_ORF(dna))
         except: continue
 
-    return len( max(longest,key = len))
+    return len(max(longest,key = len))
     
-
 
 def coding_strand_to_AA_clean(dna):
     """ Computes the Protein encoded by a sequence of DNA.  This function
@@ -136,13 +118,12 @@ def coding_strand_to_AA_clean(dna):
                 # append the AA to which dna codon matches
                 returned.append(aa[j])
 
-    #...
     return ''.join([i for i in returned])
     
 
 def coding_strand_to_AA(dna):
     '''
-    This converts DNA to AA.
+    This converts DNA to AA. In one line.
     >>> coding_strand_to_AA("ATGCGA")
     'MR'
     >>> coding_strand_to_AA("ATGCCCGCTTT")
@@ -178,8 +159,8 @@ def gene_finder(dna, threshold):
 
     return len(Real_ORFs),Real_ORFs
 
-print gene_finder( load_seq("./data/X73525.fa"), 1500)
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
+    print gene_finder( load_seq("./data/X73525.fa"), 1500)
