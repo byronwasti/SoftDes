@@ -136,15 +136,11 @@ def coding_strand_to_AA(dna):
     return ''.join([ aa[j] for i in range(0,len(dna),3) for j in range(len(codons)) if dna[i:i+3] in codons[j]])
 
 
-def gene_finder(dna, threshold):
-    """ Returns the amino acid sequences coded by all genes that have an ORF
-        larger than the specified threshold.
+def gene_finder(dna):
+    """ Returns the amino acid sequences that are likely coded by the specified dna
         
         dna: a DNA sequence
-        threshold: the minimum length of the ORF for it to be considered a valid
-                   gene.
-        returns: a list of all amino acid sequences whose ORFs meet the minimum
-                 length specified.
+        returns: a list of all amino acid sequences coded by the sequence dna.
     """
     # Finds the ORF length for threshold
     ORF_length = longest_ORF_noncoding( dna ,threshold)
