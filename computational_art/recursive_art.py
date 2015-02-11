@@ -1,6 +1,7 @@
 """ TODO: Put your header comment here """
 
 import random
+from math import sin, cos, pi
 from PIL import Image
 
 
@@ -16,8 +17,25 @@ def build_random_function(min_depth, max_depth):
                  these functions)
     """
     # TODO: implement this
-    pass
+    if max_depth == 1:
+        return ['x'] if random.randrange(0,2) == 0 else ['y']
+    tmp = random.randrange(0,4)
+    if min_depth == 0: tmp = random.randrange(0,6)     
+    if tmp == 0: # PRODUCT
+        return ['prod',build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
+    elif tmp == 1: # AVERAGE
+        return ['avg',build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
+    elif tmp == 2: # COS_PI
+        return ['cos_pi',build_random_function(min_depth-1,max_depth-1)]
+    elif tmp == 3: # SIN_PI
+        return ['sin_pi',build_random_function(min_depth-1,max_depth-1)]
+    elif tmp == 4: # X
+        return ['x']
+    elif tmp == 5: # Y
+        return ['y']
 
+def avg( a,b):
+    return  (a+b)/2.0
 
 def evaluate_random_function(f, x, y):
     """ Evaluate the random function f with inputs x,y
@@ -34,8 +52,18 @@ def evaluate_random_function(f, x, y):
         0.02
     """
     # TODO: implement this
-    pass
-
+    if f[0] == 'prod':
+        return f[1]*f[2]
+    if f[0] == 'avg':
+        return avg( f[1], f[2])
+    if f[0] == 'cos_pi':
+        return cos(pi * f[1])
+    if f[0] == 'sin_pi':
+        return sin(pi * f[1])
+    if f[0] == 'x':
+        return x
+    if f[0] == 'y':
+        return y
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
     """ Given an input value in the interval [input_interval_start,
@@ -134,13 +162,13 @@ def generate_art(filename, x_size=350, y_size=350):
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod()
+    #doctest.testmod()
 
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
-    #generate_art("myart.png")
+    generate_art("myart.png")
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
-    test_image("noise.png")
+    #test_image("noise.png")
