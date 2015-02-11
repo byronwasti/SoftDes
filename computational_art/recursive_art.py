@@ -89,7 +89,7 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
         1.5
     """
     # TODO: implement this
-    pass
+    return (output_interval_end - output_interval_start)/float(input_interval_end - input_interval_start)*(val-input_interval_start) + output_interval_start
 
 
 def color_map(val):
