@@ -19,8 +19,9 @@ def build_random_function(min_depth, max_depth):
     # TODO: implement this
     if max_depth == 1:
         return ['x'] if random.randrange(0,2) == 0 else ['y']
-    tmp = random.randrange(0,4)
-    if min_depth < 0: tmp = random.randrange(0,6)     
+    tmp = random.randrange(0,6)
+    if min_depth < 0: tmp = random.randrange(0,8)     
+
     if tmp == 0: # PRODUCT
         return ['prod',build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
     elif tmp == 1: # AVERAGE
@@ -29,9 +30,13 @@ def build_random_function(min_depth, max_depth):
         return ['cos_pi',build_random_function(min_depth-1,max_depth-1)]
     elif tmp == 3: # SIN_PI
         return ['sin_pi',build_random_function(min_depth-1,max_depth-1)]
-    elif tmp == 4: # X
+    elif tmp == 4: # ADD
+        return ['add',build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
+    elif tmp == 5: # MINUS
+        return ['min',build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
+    elif tmp == 6: # X
         return ['x']
-    elif tmp == 5: # Y
+    elif tmp == 7: # Y
         return ['y']
 
 def avg( a,b):
@@ -59,6 +64,10 @@ def evaluate_random_function(f, x, y):
         return cos(pi * evaluate_random_function(f[1],x,y))
     if f[0] == 'sin_pi':
         return sin(pi * evaluate_random_function(f[1],x,y))
+    if f[0] == 'add':
+        return evaluate_random_function(f[1],x,y)+evaluate_random_function(f[2],x,y)
+    if f[0] == 'min':
+        return evaluate_random_function(f[1],x,y)-evaluate_random_function(f[2],x,y)
     if f[0] == 'x':
         return x
     if f[0] == 'y':
