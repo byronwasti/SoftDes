@@ -144,9 +144,11 @@ def generate_art(filename, x_size=350, y_size=350):
     green_function = ["y"]
     blue_function = ["x"]
     '''
-    red_function = build_random_function(8,50)
-    green_function = build_random_function(8,50)
-    blue_function = build_random_function(8,50)
+    maximum = 40
+    minimum = 10
+    red_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
+    green_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
+    blue_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
  
 
     # Create image and loop over all pixels
