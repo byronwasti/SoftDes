@@ -20,7 +20,7 @@ def build_random_function(min_depth, max_depth):
     if max_depth == 1:
         return ['x'] if random.randrange(0,2) == 0 else ['y']
     tmp = random.randrange(0,4)
-    if min_depth == 0: tmp = random.randrange(0,6)     
+    if min_depth < 0: tmp = random.randrange(0,6)     
     if tmp == 0: # PRODUCT
         return ['prod',build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
     elif tmp == 1: # AVERAGE
@@ -51,15 +51,14 @@ def evaluate_random_function(f, x, y):
         >>> evaluate_random_function(["y"],0.1,0.02)
         0.02
     """
-    # TODO: implement this
     if f[0] == 'prod':
-        return f[1]*f[2]
+        return evaluate_random_function(f[1],x,y)*evaluate_random_function(f[2],x,y)
     if f[0] == 'avg':
-        return avg( f[1], f[2])
+        return avg( evaluate_random_function(f[1],x,y), evaluate_random_function(f[2],x,y))
     if f[0] == 'cos_pi':
-        return cos(pi * f[1])
+        return cos(pi * evaluate_random_function(f[1],x,y))
     if f[0] == 'sin_pi':
-        return sin(pi * f[1])
+        return sin(pi * evaluate_random_function(f[1],x,y))
     if f[0] == 'x':
         return x
     if f[0] == 'y':
@@ -140,9 +139,15 @@ def generate_art(filename, x_size=350, y_size=350):
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
     # Functions for red, green, and blue channels - where the magic happens!
+    '''
     red_function = ["x"]
     green_function = ["y"]
     blue_function = ["x"]
+    '''
+    red_function = build_random_function(8,50)
+    green_function = build_random_function(8,50)
+    blue_function = build_random_function(8,50)
+ 
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
