@@ -30,10 +30,10 @@ def build_random_function(min_depth, max_depth):
         return ['cos_pi',build_random_function(min_depth-1,max_depth-1)]
     elif tmp == 3: # SIN_PI
         return ['sin_pi',build_random_function(min_depth-1,max_depth-1)]
-    elif tmp == 4: # ADD
-        return ['add',build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
-    elif tmp == 5: # MINUS
-        return ['min',build_random_function(min_depth-1,max_depth-1),build_random_function(min_depth-1,max_depth-1)]
+    elif tmp == 4: # Divide by two
+        return ['div2',build_random_function(min_depth-1,max_depth-1)]
+    elif tmp == 5: # square
+        return ['square',build_random_function(min_depth-1,max_depth-1)]
     elif tmp == 6: # X
         return ['x']
     elif tmp == 7: # Y
@@ -64,10 +64,10 @@ def evaluate_random_function(f, x, y):
         return cos(pi * evaluate_random_function(f[1],x,y))
     if f[0] == 'sin_pi':
         return sin(pi * evaluate_random_function(f[1],x,y))
-    if f[0] == 'add':
-        return evaluate_random_function(f[1],x,y)+evaluate_random_function(f[2],x,y)
-    if f[0] == 'min':
-        return evaluate_random_function(f[1],x,y)-evaluate_random_function(f[2],x,y)
+    if f[0] == 'div2':
+        return evaluate_random_function(f[1],x,y)/2.0
+    if f[0] == 'square':
+        return evaluate_random_function(f[1],x,y)**2
     if f[0] == 'x':
         return x
     if f[0] == 'y':
@@ -121,7 +121,7 @@ def color_map(val):
     return int(color_code)
 
 
-def test_image(filename, x_size=350, y_size=350):
+def test_image(filename, x_size=1800, y_size=750):
     """ Generate test image with random pixels and save as an image file.
 
         filename: string filename for image (should be .png)
@@ -141,7 +141,7 @@ def test_image(filename, x_size=350, y_size=350):
     im.save(filename)
 
 
-def generate_art(filename, x_size=350, y_size=350):
+def generate_art(filename, x_size=300, y_size=300): #x_size=1600, y_size=900):
     """ Generate computational art and save as an image file.
 
         filename: string filename for image (should be .png)
@@ -158,7 +158,6 @@ def generate_art(filename, x_size=350, y_size=350):
     red_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
     green_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
     blue_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
- 
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
