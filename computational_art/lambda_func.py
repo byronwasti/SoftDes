@@ -5,7 +5,7 @@ from math import sin, cos, pi
 from PIL import Image
 
 
-def build_random_function(min_depth, max_depth):
+def build_ran_func(min_depth, max_depth):
     """ Builds a random function of depth at least min_depth and depth
         at most max_depth (see assignment writeup for definition of depth
         in this context)
@@ -16,63 +16,29 @@ def build_random_function(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    # TODO: implement this
     if max_depth == 1:
-        return x if random.randrange(0,2) == 0 else y
+        if random.randrange(0,2) == 0:
+            return lambda x,y: x  
+        else: return lambda x,y: y
     tmp = random.randrange(0,6)
     if min_depth < 0: tmp = random.randrange(0,8)     
 
     if tmp == 0: # PRODUCT
-        return lambda x,y: build_random_function(min_depth-1,max_depth-1)* build_random_function(min_depth-1,max_depth-1)
+        return lambda x,y: (build_ran_func(min_depth-1,max_depth-1))(x,y) * (build_ran_func(min_depth-1,max_depth-1)(x,y))
     elif tmp == 1: # AVERAGE
-        return lambda x,y: (build_random_function(min_depth-1,max_depth-1)+build_random_function(min_depth-1,max_depth-1))/2
+        return lambda x,y: ((build_ran_func(min_depth-1,max_depth-1))(x,y) + (build_ran_func(min_depth-1,max_depth-1)(x,y)))/2.0
     elif tmp == 2: # COS_PI
-        return lambda x: cos(pi*build_random_function(min_depth-1,max_depth-1))
+        return lambda x,y: cos(pi*(build_ran_func(min_depth-1,max_depth-1))(x,y))
     elif tmp == 3: # SIN_PI
-        return lambda x: sin(pi*build_random_function(min_depth-1,max_depth-1))
+        return lambda x,y: sin(pi*(build_ran_func(min_depth-1,max_depth-1))(x,y))
     elif tmp == 4: # Divide by two
-        return lambda x: build_random_function(min_depth-1,max_depth-1)/2.0
+        return lambda x,y: (build_ran_func(min_depth-1,max_depth-1))(x,y)/2.0
     elif tmp == 5: # square
-        return lambda x: build_random_function(min_depth-1,max_depth-1)**2
+        return lambda x,y: (build_ran_func(min_depth-1,max_depth-1))(x,y)**2
     elif tmp == 6: # X
-        return x
+        return lambda x,y: x
     elif tmp == 7: # Y
-        return y
-print build_random_function(5,40)(10,3)
-
-def avg( a,b):
-    return  (a+b)/2.0
-
-def evaluate_random_function(f, x, y):
-    """ Evaluate the random function f with inputs x,y
-        Representation of the function f is defined in the assignment writeup
-
-        f: the function to evaluate
-        x: the value of x to be used to evaluate the function
-        y: the value of y to be used to evaluate the function
-        returns: the function value
-
-        >>> evaluate_random_function(["x"],-0.5, 0.75)
-        -0.5
-        >>> evaluate_random_function(["y"],0.1,0.02)
-        0.02
-    """
-    if f[0] == 'prod':
-        return evaluate_random_function(f[1],x,y)*evaluate_random_function(f[2],x,y)
-    if f[0] == 'avg':
-        return avg( evaluate_random_function(f[1],x,y), evaluate_random_function(f[2],x,y))
-    if f[0] == 'cos_pi':
-        return cos(pi * evaluate_random_function(f[1],x,y))
-    if f[0] == 'sin_pi':
-        return sin(pi * evaluate_random_function(f[1],x,y))
-    if f[0] == 'div2':
-        return evaluate_random_function(f[1],x,y)/2.0
-    if f[0] == 'square':
-        return evaluate_random_function(f[1],x,y)**2
-    if f[0] == 'x':
-        return x
-    if f[0] == 'y':
-        return y
+        return lambda x,y: y
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
     """ Given an input value in the interval [input_interval_start,
@@ -154,11 +120,14 @@ def generate_art(filename, x_size=300, y_size=300): #x_size=1600, y_size=900):
     green_function = ["y"]
     blue_function = ["x"]
     '''
-    maximum = 40
-    minimum = 10
-    red_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
-    green_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
-    blue_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
+    maximum = 10
+    minimum = 3
+    #red_function = build_ran_func(random.randrange(0,minimum),random.randrange(0,maximum))
+    #green_function = build_ran_func(random.randrange(0,minimum),random.randrange(0,maximum))
+    #blue_function = build_ran_func(random.randrange(0,minimum),random.randrange(0,maximum))
+    red_function = build_ran_func(0,2)
+    blue_function = build_ran_func(0,1)
+    green_function = build_ran_func(0,1)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
@@ -168,9 +137,9 @@ def generate_art(filename, x_size=300, y_size=300): #x_size=1600, y_size=900):
             x = remap_interval(i, 0, x_size, -1, 1)
             y = remap_interval(j, 0, y_size, -1, 1)
             pixels[i, j] = (
-                    color_map(evaluate_random_function(red_function, x, y)),
-                    color_map(evaluate_random_function(green_function, x, y)),
-                    color_map(evaluate_random_function(blue_function, x, y))
+                    color_map(red_function (x, y)),
+                    color_map(green_function (x, y)),
+                    color_map(blue_function (x, y))
                     )
 
     im.save(filename)
@@ -183,7 +152,7 @@ if __name__ == '__main__':
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
-    #generate_art("myart.png")
+    generate_art("myart.png")
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
