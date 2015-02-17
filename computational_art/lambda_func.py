@@ -1,6 +1,7 @@
 """ TODO: Put your header comment here """
 
 import random
+import inspect
 from math import sin, cos, pi
 from PIL import Image
 
@@ -16,15 +17,19 @@ def build_ran_func(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    if max_depth == 1:
+    if max_depth < 2:
         if random.randrange(0,2) == 0:
             return lambda x,y: x  
         else: return lambda x,y: y
-    tmp = random.randrange(0,6)
-    if min_depth < 0: tmp = random.randrange(0,8)     
+
+    tmp = 0
+    #tmp = random.randrange(0,1)
+    #if min_depth < 0: tmp = random.randrange(0,8)     
 
     if tmp == 0: # PRODUCT
-        return lambda x,y: (build_ran_func(min_depth-1,max_depth-1))(x,y) * (build_ran_func(min_depth-1,max_depth-1)(x,y))
+        func1 = build_ran_func(min_depth-1,max_depth-1)
+        func2 = build_ran_func(min_depth-1,max_depth-1)
+        return (lambda x,y:  x * y)(func1,func2)
     elif tmp == 1: # AVERAGE
         return lambda x,y: ((build_ran_func(min_depth-1,max_depth-1))(x,y) + (build_ran_func(min_depth-1,max_depth-1)(x,y)))/2.0
     elif tmp == 2: # COS_PI
@@ -39,6 +44,29 @@ def build_ran_func(min_depth, max_depth):
         return lambda x,y: x
     elif tmp == 7: # Y
         return lambda x,y: y
+
+#print inspect.getsource(build_ran_func(0,5))
+
+def brf(f,n):
+    if n == 0:
+        return f
+
+    tmp = random.randrange(0,4)
+
+    if tmp == 0:
+        return brf((lambda x,y: f(x,y)) * (lambda x: f(x,y),n-1))
+    elif tmp == 1:
+        return brf( ((lambda x,y: f(x,y)) + (lambda x: f(x,y)))/2.0, n-1)
+    elif tmp == 2:
+        return brf( lambda x,y: cos( pi * f(x,y) ), n-1)
+    elif tmp == 3:
+        return brf( lambda x,y: sin(pi * f(x,y) ), n-1)
+
+f = brf(lambda x,y: x, 3)
+print f(3)
+print f(3)
+print f(3)
+
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
     """ Given an input value in the interval [input_interval_start,
@@ -125,9 +153,9 @@ def generate_art(filename, x_size=300, y_size=300): #x_size=1600, y_size=900):
     #red_function = build_ran_func(random.randrange(0,minimum),random.randrange(0,maximum))
     #green_function = build_ran_func(random.randrange(0,minimum),random.randrange(0,maximum))
     #blue_function = build_ran_func(random.randrange(0,minimum),random.randrange(0,maximum))
-    red_function = build_ran_func(0,2)
-    blue_function = build_ran_func(0,1)
-    green_function = build_ran_func(0,1)
+    red_function = build_ran_func(0,9)
+    blue_function = build_ran_func(0,9)
+    green_function = build_ran_func(0,9)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
@@ -152,7 +180,7 @@ if __name__ == '__main__':
     # Create some computational art!
     # TODO: Un-comment the generate_art function call after you
     #       implement remap_interval and evaluate_random_function
-    generate_art("myart.png")
+    #generate_art("myart.png")
 
     # Test that PIL is installed correctly
     # TODO: Comment or remove this function call after testing PIL install
