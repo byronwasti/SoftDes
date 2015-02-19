@@ -1,6 +1,14 @@
 """ TURTLE WORLD """
 from swampy.TurtleWorld import *
 from math import pi, sin
+import random
+
+world = TurtleWorld()
+beth = Turtle()
+beth.x = 100
+beth.y = -500
+beth.set_pen_color('red')
+beth.delay = 0
 
 def draw_line(turtle, start_x, start_y, angle, line_length):
     ''' DRAWS A LINE
@@ -34,12 +42,83 @@ def turtle_sin(turtle):
         turtle.heading = sin(i/5.0)*180.0/pi
         turtle.fd(10)
 
-world = TurtleWorld()
-beth = Turtle()
-beth.set_pen_color('red')
-#draw_line(beth,100,100,33,50)
-#my_square(beth,50,50,100)
-#my_regular_polygon(beth,0,0,100,6)
-#my_circle(beth,10,10,50)
-turtle_sin(beth)
+def snow_flake_side(turtle, length,level):
+    ''' Draw side of snowflakkkkkkeee'''
+    if level == 0:
+        turtle.fd(length)
+        turtle.rt(60)
+        turtle.fd(length)
+        turtle.rt(-120)
+        turtle.fd(length)
+        turtle.rt(60)
+        turtle.fd(length)
+        return
+
+    snow_flake_side(turtle,length/3.0, level-1)
+    turtle.rt(60)
+    snow_flake_side(turtle,length/3.0, level-1)
+    turtle.rt(-120)
+    snow_flake_side(turtle,length/3.0, level-1)
+    turtle.rt(60)
+    snow_flake_side(turtle,length/3.0,level-1)
+    
+def snow_flake(turtle, length, level, sides):
+    for i in xrange(sides):
+        turtle.heading = i*360/sides
+        snow_flake_side(turtle, length, level)
+
+def tree ( turtle, length, level):
+    ''' MAKE A TREE '''
+    if level == 0:
+        turtle.set_pen_color('green')
+        turtle.fd(length)
+        both = Turtle()
+
+        both.x = turtle.x
+        both.y = turtle.y
+        both.heading = turtle.heading
+        both.set_pen_color('green')
+
+        both.rt(-random.randrange(20,50))
+        both.fd(length)
+        both.undraw()
+        turtle.bk(length/3.0)
+        both = Turtle()
+
+        both.x = turtle.x
+        both.y = turtle.y
+        both.heading = turtle.heading
+        both.set_pen_color('green')
+
+        both.rt(random.randrange(20,50))
+        both.fd(length)
+        both.undraw()
+        return
+
+    turtle.set_pen_color('brown')
+    turtle.fd(length)
+    both = Turtle()
+
+    both.x = turtle.x
+    both.y = turtle.y
+    both.heading = turtle.heading
+
+    both.rt(-random.randrange(20,50))
+    tree ( both, length*0.6, level-1)
+    both.undraw()
+    turtle.bk(length/3.0)
+    both = Turtle()
+
+    both.x = turtle.x
+    both.y = turtle.y
+    both.heading = turtle.heading
+
+    both.rt(random.randrange(20,50))
+    tree(both, length*0.64, level-1)
+    both.undraw()
+
+
+snow_flake(beth,22,5, 10)
+#beth.heading = 90
+#tree( beth, 100, 12)
 wait_for_user()
