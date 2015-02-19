@@ -152,7 +152,7 @@ def test_image(filename, x_size=1800, y_size=750):
     im.save(filename)
 
 
-def generate_art(filename, x_size=300, y_size=300, time=100): #x_size=1600, y_size=900):
+def generate_art(filename, x_size=300, y_size=300, time=1): #x_size=1600, y_size=900):
     """ Generate computational art and save as an image file.
 
         filename: string filename for image (should be .png)
@@ -164,11 +164,24 @@ def generate_art(filename, x_size=300, y_size=300, time=100): #x_size=1600, y_si
     green_function = ["y"]
     blue_function = ["x"]
     '''
-    maximum = 6
-    minimum = 1
+    maximum = 50
+    minimum = 30
     red_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
     green_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
     blue_function = build_random_function(random.randrange(0,minimum),random.randrange(0,maximum))
+
+    '''
+
+
+
+
+
+
+    '''
+
+    print red_function
+    print green_function
+    print blue_function
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
