@@ -21,4 +21,4 @@ def get_top_n_words(word_list, n):
 		returns: a list of n most frequently occurring words ordered from most
 				 frequently to least frequentlyoccurring
 	"""
-	pass
+    ordered_by_frequency = sorted(word_counts, key=word_counts.get, reverse=True)
