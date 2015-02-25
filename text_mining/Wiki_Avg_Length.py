@@ -3,18 +3,15 @@ from pattern.web import URL, extension
 import string
 import numpy as np
 import matplotlib.pyplot as plt
+import anydbm
 
-'''
-article = Wikipedia(language = 'fr').search('cat')
-text = article.sections[0].content.split('\n')[0]
-print text
-'''
+db = anydbm.open('CACHE.db','c')
 
-#url  = URL('http://translate.google.com/translate_tts?ie=UTF-8&tl=en&q=test')
-f = open('OUTPUT.txt','w')
 def Avg( s ):
     length = 0
     numb = 0
+    if s in db:
+        return float(db[s])
     article = Wikipedia().search(s)
     for i in xrange(len(article.sections)):
         if article.sections[i].title == "See also":
@@ -27,65 +24,46 @@ def Avg( s ):
             lengthtmp += len(words)
             numb += 1
             numbtmp += 1
-        #print article.sections[i].title + ' : ', float(lengthtmp)/float(numbtmp)
+    db[s] = str( float(length)/float(numb) )
+    return float(length)/float(numb)
 
-    return s , float(length)/float(numb)
+def Take_AVG( names ):
+    return [ Avg( an ) for an in names ]
 
-ANIMALS = ['Cat', 'Dog', 'Duck', 'Rat', 'Ferret']
-SCHOOLS = ['Olin College', 'MIT', 'Bunker Hill Community College', 'Harvard University', 'Princeton']
-TESTS = ANIMALS + SCHOOLS
-print TESTS
-avg = []
-for an in TESTS:
-    tmp = Avg( an )
-    avg.append(tmp[1])
-    print tmp
-print avg
-Sep = np.arange(len(TESTS))
-width = 0.1
-fig, ax = plt.subplots()
-rects = ax.bar(Sep, avg, width, color='r')
-ax.set_xticks(Sep+width)
-ax.set_xticklabels(TESTS)
-def autolabel(rects):
-    # attach some text labels
-    for rect in rects:
-        height = rect.get_height()
-        ax.text(rect.get_x()+rect.get_width()/2., 1.05*height, '%d'%int(height),
-                ha='center', va='bottom')
+def Plot_Stuff( data, names ):
+    Sep = np.arange(len(data))
+    width = .5
+    fig, ax = plt.subplots()
+    rects = ax.bar(Sep+width/2.0, data, width, color='r')
 
-#autolabel(rects)
+    ax.set_xticks(Sep+width)
+    ax.set_xticklabels(names, rotation='vertical')
+    ax.set_title('States')
+    ax.set_ylabel('Average Word Length')
 
-plt.show()
+    def autolabel(rects):
+        for i,rect in enumerate(rects):
+            height = data[i] #rect.get_height()
+            ax.text(rect.get_x()+rect.get_width()/2., 1.01*height, '%.3f'%height,
+                    ha='center', va='bottom')
 
-''' Compare collegs '''
-#print Avg('Olin_College')
-#print Avg('Bunker_hill_community_college')
-#print Avg('Harvard_university')
-#print Avg('MIT')
+    autolabel(rects)
 
-#print Avg('stephen hawking')
-#print Avg('Einstein')
-#print Avg('honey boo boo')
+    plt.show()
 
-#print Avg('kanye west')
-#print Avg('jesus')
+ANIMALS = ['cat', 'dog', 'duck', 'rat', 'ferret','llama','chicken','rooster', 'snake']
+SCHOOLS = ['olin college', 'mit', 'bunker hill community college', 'harvard university', 'princeton']
+COUNTRIES = ['usa','mexico','spain','portugal','sweden','canada','russia']
+STATES = ['washington', 'wisconsin', 'west virginia', 'florida', 'wyoming', 'new hampshire', 'new jersey', 'new mexico', 'north carolina', 'north dakota', 'nebraska', 'new york', 'rhode island', 'nevada', 'colorado', 'california', 'georgia', 'connecticut', 'oklahoma', 'ohio', 'kansas', 'south carolina', 'kentucky', 'oregon', 'south dakota', 'delaware', 'hawaii', 'texas', 'louisiana', 'tennessee', 'pennsylvania', 'virginia', 'alaska', 'alabama', 'arkansas', 'vermont', 'illinois', 'indiana', 'iowa', 'arizona', 'idaho', 'maine', 'maryland', 'massachusetts', 'utah', 'missouri', 'minnesota', 'michigan', 'montana', 'mississippi']
+SPORTS = ['basketball', 'baseball','football','hockey','squash','tennis','soccer','rugby']
+ACADEMIC = ['physics','computer science','biology','science','art']
+WORDS_LONG = ['antidisestablishmentarianism', 'pneumonoultramicroscopicsilicovolcanoconiosis', 'lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon','supercalifragilisticexpialidocious', 'pseudopseudohypoparathyroidism', 'honorificabilitudinitatibus']
+WORDS_SHORT = ['sit','art','ace','aim','air','gun','bus','egg','cap','nip','nod']
 
-#print Avg('Obama')
-#print Avg('Putin')
+#DATA = 
+#Plot_Stuff( Take_AVG( DATA ) , DATA )
 
-#print Avg('llama')
-#print Avg('poutine')
+#db['ANIMALS'] = str(sum(Take_AVG(DATA))/float(len(Take_AVG(DATA))))
 
-#print Avg('hollywood')
-#print Avg('moon landing')
-
-#print Avg('Kenya')
-#print Avg('USA')
-#print Avg('Mexico')
-
-#print Avg('North')
-#print Avg('South')
-
-#print Avg('chicken')
-#print Avg('egg')
+DATA_FULL = ['ANIMALS','SCHOOLS','COUNTRIES','STATES','SPORTS','ACADEMIC','WORDS_LONG','WORDS_SHORT']
+Plot_Stuff( Take_AVG( DATA_FULL ) , DATA_FULL )
