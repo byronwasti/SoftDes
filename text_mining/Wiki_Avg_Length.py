@@ -43,7 +43,7 @@ def Plot_Stuff( data, names ):
 
     def autolabel(rects):
         for i,rect in enumerate(rects):
-            height = data[i] #rect.get_height()
+            height = data[i] 
             ax.text(rect.get_x()+rect.get_width()/2., 1.01*height, '%.3f'%height,
                     ha='center', va='bottom')
 
@@ -54,16 +54,16 @@ def Plot_Stuff( data, names ):
 ANIMALS = ['cat', 'dog', 'duck', 'rat', 'ferret','llama','chicken','rooster', 'snake']
 SCHOOLS = ['olin college', 'mit', 'bunker hill community college', 'harvard university', 'princeton']
 COUNTRIES = ['usa','mexico','spain','portugal','sweden','canada','russia']
-STATES = ['washington', 'wisconsin', 'west virginia', 'florida', 'wyoming', 'new hampshire', 'new jersey', 'new mexico', 'north carolina', 'north dakota', 'nebraska', 'new york', 'rhode island', 'nevada', 'colorado', 'california', 'georgia', 'connecticut', 'oklahoma', 'ohio', 'kansas', 'south carolina', 'kentucky', 'oregon', 'south dakota', 'delaware', 'hawaii', 'texas', 'louisiana', 'tennessee', 'pennsylvania', 'virginia', 'alaska', 'alabama', 'arkansas', 'vermont', 'illinois', 'indiana', 'iowa', 'arizona', 'idaho', 'maine', 'maryland', 'massachusetts', 'utah', 'missouri', 'minnesota', 'michigan', 'montana', 'mississippi']
+STATES = ['washington state', 'wisconsin', 'west virginia', 'florida', 'wyoming', 'new hampshire', 'new jersey', 'new mexico', 'north carolina', 'north dakota', 'nebraska', 'new york', 'rhode island', 'nevada', 'colorado', 'california', 'georgia', 'connecticut', 'oklahoma', 'ohio', 'kansas', 'south carolina', 'kentucky', 'oregon', 'south dakota', 'delaware', 'hawaii', 'texas', 'louisiana', 'tennessee', 'pennsylvania', 'virginia', 'alaska', 'alabama', 'arkansas', 'vermont', 'illinois', 'indiana', 'iowa', 'arizona', 'idaho', 'maine', 'maryland', 'massachusetts', 'utah', 'missouri', 'minnesota', 'michigan', 'montana', 'mississippi']
 SPORTS = ['basketball', 'baseball','football','hockey','squash','tennis','soccer','rugby']
 ACADEMIC = ['physics','computer science','biology','science','art']
 WORDS_LONG = ['antidisestablishmentarianism', 'pneumonoultramicroscopicsilicovolcanoconiosis', 'lopadotemachoselachogaleokranioleipsanodrimhypotrimmatosilphioparaomelitokatakechymenokichlepikossyphophattoperisteralektryonoptekephalliokigklopeleiolagoiosiraiobaphetraganopterygon','supercalifragilisticexpialidocious', 'pseudopseudohypoparathyroidism', 'honorificabilitudinitatibus']
 WORDS_SHORT = ['sit','art','ace','aim','air','gun','bus','egg','cap','nip','nod']
 
-#DATA = 
-#Plot_Stuff( Take_AVG( DATA ) , DATA )
+DATA = STATES
+Plot_Stuff( Take_AVG( DATA ) , DATA )
 
 #db['ANIMALS'] = str(sum(Take_AVG(DATA))/float(len(Take_AVG(DATA))))
 
-DATA_FULL = ['ANIMALS','SCHOOLS','COUNTRIES','STATES','SPORTS','ACADEMIC','WORDS_LONG','WORDS_SHORT']
-Plot_Stuff( Take_AVG( DATA_FULL ) , DATA_FULL )
+#DATA_FULL = ['ANIMALS','SCHOOLS','COUNTRIES','STATES','SPORTS','ACADEMIC','WORDS_LONG','WORDS_SHORT']
+#Plot_Stuff( Take_AVG( DATA_FULL ) , DATA_FULL )
