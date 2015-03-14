@@ -141,7 +141,8 @@ class Bird():
 
     def flap(self):
         """ cause the bird to accelerate upwards (negative y direction) """
-        self.v_y -= 100
+        if self.v_y > 0:
+            self.v_y -= 100
 
 class PipeObstacle():
     """ A class that represents a double pipe obstacle """
