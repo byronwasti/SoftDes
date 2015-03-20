@@ -1,0 +1,5 @@
+gvalues : Cost from start to point
+
+hvalues : Estimated cost from point to end
+
+fvalues : Final cost of going through each path
