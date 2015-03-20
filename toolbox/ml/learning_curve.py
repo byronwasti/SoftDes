@@ -16,8 +16,14 @@ test_accuracies = numpy.zeros(len(train_percentages))
 # the resultant accuracy.
 # You should repeat each training percentage num_trials times to smooth out variability
 # for consistency with the previous example use model = LogisticRegression(C=10**-10) for your learner
-
-# TODO: your code here
+tmp = 0
+for j,i in enumerate(train_percentages):
+    for k in range(num_trials):
+        X_train, X_test, y_train, y_test = train_test_split(data.data, data.target, train_size=i/100.0)
+        model = LogisticRegression(C=1**-10)
+        model.fit(X_train, y_train)
+        tmp += model.score(X_test,y_test)
+    test_accuracies[j] = tmp/float(num_trials)
 
 fig = plt.figure()
 plt.plot(train_percentages, test_accuracies)

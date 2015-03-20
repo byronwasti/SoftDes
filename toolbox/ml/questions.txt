@@ -1,0 +1,4 @@
+1. The general trend of the curve is upwards, almost linearily. 
+2. Around 5-20% of the set being used for training seems to be a bit noisier, probably because there is very little training set data for the model to train on.
+3. 7 or 8 trials seems to give a rather smooth curve, but 10 works well.
+4. 10**-1 gives a completely linear line, and 10**-100 gives a straightish but smooth curve. 
