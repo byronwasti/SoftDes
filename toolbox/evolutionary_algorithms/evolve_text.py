@@ -94,6 +94,19 @@ class Message(list):
 
 # TODO: Implement levenshtein_distance function (see Day 9 in-class exercises)
 # HINT: Now would be a great time to implement memoization if you haven't
+dis = {}
+def levenshtein_distance(s1,s2):
+    """ Computes the Levenshtein distance between two input strings """
+    if len(s1) == 0:
+        return len(s2)
+    if len(s2) == 0:
+        return len(s1)
+    if (s1, s2) not in dis:
+            dis[(s1,s2)] = ( min([int(s1[0] != s2[0]) + levenshtein_distance(s1[1:],s2[1:]),
+                1+levenshtein_distance(s1[1:],s2),
+                1+levenshtein_distance(s1,s2[1:])]) )
+
+    return dis[(s1,s2)]
 
 def evaluate_text(message, goal_text, verbose=VERBOSE):
     """
@@ -119,16 +132,15 @@ def mutate_text(message, prob_ins=0.05, prob_del=0.05, prob_sub=0.05):
         Substitution:   Replace one character of the Message with a random
                         (legal) character
     """
-
     if random.random() < prob_ins:
-        # TODO: Implement insertion-type mutation
-        pass
+        message.insert( random.randrange(len(message)),
+                        VALID_CHARS[random.randrange(len(VALID_CHARS))])
 
-    # TODO: Also implement deletion and substitution mutations
-    # HINT: Message objects inherit from list, so they also inherit
-    #       useful list methods
-    # HINT: You probably want to use the VALID_CHARS global variable
+    if random.random() < prob_del:
+        message.pop( random.randrange(len(message)))
 
+    if random.random() < prob_sub:
+        message[random.randrange(len(message))] = VALID_CHARS[random.randrange(len(VALID_CHARS))]
     return (message, )   # Length 1 tuple, required by DEAP
 
 
@@ -185,7 +197,7 @@ def evolve_string(text):
                                    toolbox,
                                    cxpb=0.5,    # Prob. of crossover (mating)
                                    mutpb=0.2,   # Probability of mutation
-                                   ngen=500,    # Num. of generations to run
+                                   ngen=5000,    # Num. of generations to run
                                    stats=stats)
 
     return pop, log
