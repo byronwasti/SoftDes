@@ -95,6 +95,7 @@ def spell_check_alg2(skip_factor, num_words_to_check):
             print "running time: %.10f" % (current_time - start_time)
             return current_time - start_time
 
+
 def spell_check_alg3(skip_factor, num_words_to_check):
     """ Algorithm 3 for spell checking
     
@@ -119,14 +120,14 @@ if __name__ == '__main__':
             - spell_check_alg2
             - spell_check_alg3
     """
-    spell_check = spell_check_alg1
-    n_trials = 1                   # the number of times to repeat a run
+    spell_check = spell_check_alg3
+    n_trials = 50                   # the number of times to repeat a run
     """ Specifies the number of words of the constitution to spell check.  Note:
         we start from the beginning of the constitution and check until the
         word limit is reached
     """
-    num_words_to_check = 2000
-    make_plot = False               # Should we make a plot of running time versus input size?
+    num_words_to_check = 5000
+    make_plot = 1                  # Should we make a plot of running time versus input size?
 
     skip_factors = range(1,20)     # which skip factors to test 
     if not(make_plot):

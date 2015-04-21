@@ -55,20 +55,48 @@ def reverse_complement_2(dna):
         return_val.append(get_complement(c))
     return "".join(return_val)
 
+def reverse_complement_3(dna, l):
+    """ Method 1 for Computing the reverse complementary sequence of DNA
+        for the specfied DNA sequence
+    
+        dna: a DNA sequence represented as a string
+        returns: the reverse complementary DNA sequence represented as a string
+    >>> reverse_complement_2("ATGCCCGCTTT")
+    'AAAGCGGGCAT'
+    >>> reverse_complement_2("CCGCGTTCA")
+    'TGAACGCGG'
+    """
+    return_val = ['a']*l
+    for i, c in enumerate(reversed(dna)):
+        return_val[i] = (get_complement(c))
+    return "".join(return_val)
+
+def reverse_complement_4(dna):
+    return reversed(''.join([get_complement(i) for i in dna]))
+
 if __name__ == '__main__':
-    dna_length = 100
+    dna_length = 10000000
     import doctest
     doctest.testmod()
     dna = generate_random_dna(dna_length)
+
+    '''
     start_time = time.time()
     rev_complement = reverse_complement_1(dna)
-    stop_time = time.time()
+    print time.time() - start_time
+    '''
 
-    print stop_time - start_time
-
-    dna = generate_random_dna(dna_length)
+    #dna = generate_random_dna(dna_length)
     start_time = time.time()
     rev_complement = reverse_complement_2(dna)
-    stop_time = time.time()
+    print time.time() - start_time
 
-    print stop_time - start_time
+    #dna = generate_random_dna(dna_length)
+    start_time = time.time()
+    rev_complement = reverse_complement_3(dna,dna_length)
+    print time.time() - start_time
+
+    start_time = time.time()
+    rev_complement = reverse_complement_4(dna)
+    print time.time() - start_time
+
